@@ -1,0 +1,23 @@
+div.dataTables_wrapper div.dataTables_info {
+  white-space: normal;
+}
+div.dataTables_wrapper div.dataTables_filter input {
+  width: 250px;
+}
+@media screen and (max-width: 768px){
+  div.dataTables_wrapper div.dataTables_filter input {
+    width: auto;
+  }
+}
+.preview{
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  max-height: 150px;
+  min-height: 140px;
+  border: 1px solid #ccc;
+}
+.preview > img{
+  max-width: 100%;
+  height: auto;
+}
