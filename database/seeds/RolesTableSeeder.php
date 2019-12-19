@@ -33,6 +33,18 @@ class RolesTableSeeder extends Seeder
             'description' => 'Rol para usuarios invitados al sistema',
         ]);
 
+        Role::create([
+            'name' => 'Tramite',
+            'slug' => 'tramite',
+            'description' => 'Rol para usuarios que crean los tramites',
+        ]);
+
+        Role::create([
+            'name' => 'Bandeja',
+            'slug' => 'badeja',
+            'description' => 'Rol para usuarios que crean los tramites',
+        ]);
+
         SIS\User::find(1)->roles()->attach(1);
 
     }

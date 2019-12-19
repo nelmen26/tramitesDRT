@@ -54,9 +54,7 @@
 				{{ Form::radio('estado','D') }} DESHABILITAR	
 			</label>
 		</div>
-	</div>
-	
-	
+	</div>	
 </div>
 
 <div class="form-group text-center">

@@ -23,6 +23,13 @@
         <i class="fa fa-dashboard"></i> <span>PANEL DE CONTROL</span>
       </a>
     </li>
+    @can('contribuyentes.index')
+      <li class="{{ active('contribuyentes') }}">
+        <a href="{{ route('contribuyentes.index') }}">
+          <i class="fa fa-bank"></i> Contribuyentes
+        </a>
+      </li>
+    @endcan
     @canatleast(['empresas.index'])
     <li class="treeview {{ active('configuracion/*') }}">
       <a href="#"><i class="fa fa-cogs"></i> <span>CONFIGURACION</span>
@@ -35,6 +42,13 @@
         <li class="{{ active('configuracion/empresas') }}">
           <a href="{{ route('empresas.index') }}">
             <i class="fa fa-bank"></i> Perfil Empresa
+          </a>
+        </li>
+        @endcan
+        @can('areas.index')
+        <li class="{{ active('configuracion/areas') }}">
+          <a href="{{ route('areas.index') }}">
+            <i class="fa fa-bank"></i> Areas
           </a>
         </li>
         @endcan

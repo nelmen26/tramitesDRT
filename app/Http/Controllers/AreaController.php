@@ -4,82 +4,71 @@ namespace SIS\Http\Controllers;
 
 use SIS\Area;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+// use Brian2694\Toastr\Toastr;
+use SIS\Http\Requests\AreaRequest;
+use Brian2694\Toastr\Facades\Toastr;
 
 class AreaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
+    public function apiareas()
+    {
+        $areas = Area::orderBy('id','ASC')->get();
+        
+        return DataTables::of($areas)
+                    ->addIndexColumn()
+                    ->addColumn('activo', function($area){
+                        return $area->activo == 1
+                                    ? '<span class="label label-success">'.$area->fullestado.'</span>'
+                                    : '<span class="label label-danger">'.$area->fullestado.'</span>';
+                    })
+                    
+                    ->addColumn('action','areas.partials.acciones')
+                    ->rawColumns(['action','activo'])
+                    ->toJson();
+    }
+
     public function index()
     {
-        //
+        return view('areas.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('areas.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(AreaRequest $request)
     {
-        //
+        $area = Area::create($request->all());
+        
+        Toastr::success('area creado con exito','Correcto!');
+
+        return redirect()->route('areas.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \SIS\Area  $area
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Area $area)
+    public function edit(area $area)
     {
-        //
+        return view('areas.edit',compact('area'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \SIS\Area  $area
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Area $area)
+    public function update(AreaRequest $request, area $area)
     {
-        //
+        $area->fill($request->all());
+        
+        $area->save();
+        Toastr::info('area actualizado con exito','Actualizado!');
+        return redirect()->route('areas.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \SIS\Area  $area
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Area $area)
+    public function destroy(area $area)
     {
-        //
-    }
+        $area->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \SIS\Area  $area
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Area $area)
-    {
-        //
+        return response()->json();
     }
 }

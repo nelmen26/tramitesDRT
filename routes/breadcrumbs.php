@@ -57,3 +57,17 @@ Breadcrumbs::register('contribuyentesedit', function ($trail) {
     $trail->parent('contribuyentes');
     $trail->push('Edicion', route('contribuyentes.index'));
 });
+
+// Areas
+Breadcrumbs::register('areas', function ($trail) {
+    $trail->parent('home');
+    $trail->push('Areas', route('areas.index'));
+});
+Breadcrumbs::register('areascreate', function ($trail) {
+    $trail->parent('areas');
+    $trail->push('Nuevo', route('areas.create'));
+});
+Breadcrumbs::register('areasedit', function ($trail) {
+    $trail->parent('areas');
+    $trail->push('Edicion', route('areas.index'));
+});

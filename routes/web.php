@@ -27,14 +27,6 @@ Route::get('contribuyentes/{contribuyente}/edit', 'ContribuyenteController@edit'
 Route::put('contribuyentes/{contribuyente}', 'ContribuyenteController@update')->name('contribuyentes.update')->middleware('permission:contribuyentes.edit');
 Route::delete('contribuyentes/{contribuyente}/delete', 'ContribuyenteController@destroy')->name('contribuyentes.destroy')->middleware('permission:contribuyentes.destroy');
 
-// Rutas para el modulo de areas
-Route::get('areas', 'AreaController@index')->name('areas.index')->middleware('permission:areas.index');
-Route::get('areas/create', 'AreaController@create')->name('areas.create')->middleware('permission:areas.create');
-Route::post('areas/store', 'AreaController@store')->name('areas.store')->middleware('permission:areas.create');
-Route::get('areas/{area}/edit', 'AreaController@edit')->name('areas.edit')->middleware('permission:areas.edit');
-Route::put('areas/{area}', 'AreaController@update')->name('areas.update')->middleware('permission:areas.edit');
-Route::delete('areas/{area}/delete', 'AreaController@destroy')->name('areas.destroy')->middleware('permission:areas.destroy');
-
 // Rutas para el modulo de tramites
 Route::get('tramites', 'TramiteController@index')->name('tramites.index')->middleware('permission:tramites.index');
 Route::get('tramites/create', 'TramiteController@create')->name('tramites.create')->middleware('permission:tramites.create');
@@ -64,7 +56,16 @@ Route::group(['prefix'=> 'configuracion'], function(){
 	// Rutas para el modulo de empresa
 	Route::get('empresas', 'EmpresaController@index')->name('empresas.index')->middleware('permission:empresas.index');
 	Route::post('empresas/store', 'EmpresaController@store')->name('empresas.store')->middleware('permission:empresas.index');
-  	Route::post('empresas/{empresa}/upload','EmpresaController@upload')->name('empresas.upload')->middleware('permission:empresas.index');
+	Route::post('empresas/{empresa}/upload','EmpresaController@upload')->name('empresas.upload')->middleware('permission:empresas.index');
+	
+	// Rutas para el modulo de areas
+	Route::get('areas', 'AreaController@index')->name('areas.index')->middleware('permission:areas.index');
+	Route::get('areas/create', 'AreaController@create')->name('areas.create')->middleware('permission:areas.create');
+	Route::post('areas/store', 'AreaController@store')->name('areas.store')->middleware('permission:areas.create');
+	Route::get('areas/{area}/edit', 'AreaController@edit')->name('areas.edit')->middleware('permission:areas.edit');
+	Route::put('areas/{area}', 'AreaController@update')->name('areas.update')->middleware('permission:areas.edit');
+	Route::delete('areas/{area}/delete', 'AreaController@destroy')->name('areas.destroy')->middleware('permission:areas.destroy');
+	
 });
 
 Route::group(['prefix' => 'administracion'], function(){
