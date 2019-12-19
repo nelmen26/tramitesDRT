@@ -23,6 +23,9 @@ let opcionesToastr = {
 }
   
 let direccion = location.origin;
+
+if(direccion === 'http://localhost')
+    direccion +='/tramitesDRT/public'; //Esto se debe cambiar al nombre de la app
   
 const eliminar = (ruta,nombre,tabla) =>{
     swal({

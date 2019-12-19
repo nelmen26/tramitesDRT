@@ -43,3 +43,17 @@ Breadcrumbs::register('empresas', function ($trail) {
     $trail->parent('home');
     $trail->push('Empresa', route('empresas.index'));
 });
+
+// Contribuyentes
+Breadcrumbs::register('contribuyentes', function ($trail) {
+    $trail->parent('home');
+    $trail->push('Contribuyentes', route('contribuyentes.index'));
+});
+Breadcrumbs::register('contribuyentescreate', function ($trail) {
+    $trail->parent('contribuyentes');
+    $trail->push('Nuevo', route('contribuyentes.create'));
+});
+Breadcrumbs::register('contribuyentesedit', function ($trail) {
+    $trail->parent('contribuyentes');
+    $trail->push('Edicion', route('contribuyentes.index'));
+});

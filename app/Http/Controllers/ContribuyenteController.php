@@ -2,84 +2,72 @@
 
 namespace SIS\Http\Controllers;
 
+use Brian2694\Toastr\Facades\Toastr;
 use SIS\Contribuyente;
 use Illuminate\Http\Request;
+use SIS\Http\Requests\ContribuyenteRequest;
+use Yajra\DataTables\Facades\DataTables;
 
 class ContribuyenteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
+    public function apicontribuyentes()
+    {
+        // if(auth()->user()->isRole('admin'))
+            $contribuyentes = Contribuyente::orderBy('id','ASC')->get();
+        // else
+            // $contribuyentes = contribuyente::where('user_recibido',auth()->user()->nombre)->where('estado','!=','D')->where('estado','!=','O')->where('estado','!=','F')->orwhere('fecha_recibido',null)->where('area_id',auth()->user()->area_id)->orderBy('id','ASC')->get();
+        
+        
+        
+        return DataTables::of($contribuyentes)
+                    ->addIndexColumn()
+                    
+                    ->addColumn('action','contribuyentes.partials.acciones')
+                    ->rawColumns(['action'])
+                    ->toJson();
+    }
+
     public function index()
     {
-        //
+        return view('contribuyentes.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('contribuyentes.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(ContribuyenteRequest $request)
     {
-        //
+        $contribuyente = Contribuyente::create($request->all());
+        
+        Toastr::success('contribuyente creado con exito','Correcto!');
+
+        return redirect()->route('contribuyentes.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \SIS\Contribuyente  $contribuyente
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Contribuyente $contribuyente)
+    public function edit(contribuyente $contribuyente)
     {
-        //
+        return view('contribuyentes.edit',compact('contribuyente'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \SIS\Contribuyente  $contribuyente
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Contribuyente $contribuyente)
+    public function update(ContribuyenteRequest $request, contribuyente $contribuyente)
     {
-        //
+        $contribuyente->fill($request->all());
+        
+        $contribuyente->save();
+        Toastr::info('contribuyente actualizado con exito','Actualizado!');
+        return redirect()->route('contribuyentes.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \SIS\Contribuyente  $contribuyente
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Contribuyente $contribuyente)
+    public function destroy(contribuyente $contribuyente)
     {
-        //
-    }
+        $contribuyente->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \SIS\Contribuyente  $contribuyente
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Contribuyente $contribuyente)
-    {
-        //
+        return response()->json();
     }
 }
